@@ -48,7 +48,7 @@ body{
 input[type="text"]{
 	border:1px solid #BFC2C4;
 	height:25px;
-	width:126px;
+	width:120px;
 	color:#AEAEAE;
 	font-size:12px;
 	-webkit-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
@@ -59,12 +59,23 @@ input[type="text"]{
 
 #upload{
 	position:relative;
-	top:-29px;
+	/*top:-29px;
+	left:171px;*/
 	font-size:20px;
 	width:101px;
-	left:171px;
-	opacity: 0;
+	/*opacity: 0;*/
 	background-color:red;
+}
+
+#uploadWrap{
+	position: relative;
+	background-color:blue;
+	overflow:hidden;
+	top:-29px;
+	left:163px;
+	width:115px;
+	opacity: 0;
+	cursor: pointer;
 }
 
 #submitPostcode{
