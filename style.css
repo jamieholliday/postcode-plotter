@@ -4,16 +4,94 @@
 	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
+body, html{
+	height:100%;
+}
+
+body{
+	padding:0;
+	margin:0;
+	background-color: #eee;
+	background:url('bg-grid.png');
+	font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#wrapper{
+	width:1170px;
+	margin:0 auto;
+	height:100%;
+	padding:30px;
+}
+
 #mapCanvas{
-	width:60%;
-	height:500px;
+	background-color:white;
+	width:800px;
+	height:100%;
 	float:left;
 	resize:vertical;
+	border: 3px solid #eee;
+	/*-webkit-box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.2); /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    /*box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.2); /* Opera 10.5, IE9+, Firefox 4+, Chrome 6+, iOS 5 */
+    margin-right:10px;
 }
 
 #mapControls{
-	width:40%;
-	height:500px;
+	width:300px;
+	height:100%;
 	float:left;
 	padding-left:20px;
+	background-color:#fff;
+	border: 3px solid #eee;
+	padding:10px;
 }
+
+input[type="text"]{
+	border:1px solid #BFC2C4;
+	height:25px;
+	width:126px;
+	color:#AEAEAE;
+	font-size:12px;
+	-webkit-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
+	padding: 4px 7px 4px 7px;
+
+}
+
+#upload{
+	position:relative;
+	top:-29px;
+	font-size:20px;
+	width:101px;
+	left:171px;
+	opacity: 0;
+	background-color:red;
+}
+
+#submitPostcode{
+	width:35px;
+	border-radius: 2px;
+}
+
+.button {
+   border: 1px solid #0a3c59;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   padding: 4px 5px; 
+   -webkit-border-radius: 2px;
+   -moz-border-radius: 2px;
+   border-radius: 2px;
+   -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   text-shadow: #7ea4bd 0 1px 0;
+   color: #06426c;
+   font-size: 14px;
+   font-family: helvetica, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }

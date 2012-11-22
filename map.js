@@ -85,7 +85,6 @@
 		 	if(output[i][id] !== "" || output[i][id] !== undefined){
 		 		var postcode = output[i][id];
 		 		plotPoint(postcode);
-		 		console.log(postcode);
 		 	}
 		 }
 		 document.getElementById('postcodes').innerHTML = '';
