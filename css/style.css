@@ -1,0 +1,108 @@
+*{
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+body, html{
+	height:100%;
+}
+
+body{
+	background:url('../img/bg-grid.png');
+}
+
+#wrapper{
+	padding:30px;
+	height:100%;
+}
+
+#innerWrapper{
+	height:100%;
+}
+
+#mapCanvas{
+	background-color:white;
+	height:100%;
+	resize:vertical;
+	border: 3px solid #eee;
+}
+
+#mapControls{
+	height:100%;
+	padding-left:20px;
+	background-color:#fff;
+	border: 3px solid #eee;
+	padding:10px;
+}
+
+input[type="text"]{
+	border:1px solid #BFC2C4;
+	height:26px;
+	width:229px;
+	color:#AEAEAE;
+	font-size:12px;
+	-webkit-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
+	padding: 4px 7px 4px 7px;
+
+}
+
+#upload{
+	position:relative;
+	top:-29px;
+	font-size:20px;
+	width:114px;
+	opacity: 0;
+	background-color:red;
+}
+
+#uploadWrap{
+	position: relative;
+	overflow:hidden;
+	width:115px;
+	cursor: pointer;
+	height:30px;
+}
+
+#submitPostcode{
+	margin-top:-10px;
+}
+
+#postcodes .alert li{
+	list-style: none;
+}
+
+#postcodes .alert .btn{
+	display:block;
+}
+
+
+/* OVERRIDES */
+.container{
+	width:1000px;
+}
+
+.button {
+   border: 1px solid #0a3c59;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   padding: 5px 3px 3px 3px; 
+   -webkit-border-radius: 2px;
+   -moz-border-radius: 2px;
+   border-radius: 2px;
+   -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   text-shadow: #7ea4bd 0 1px 0;
+   color: #06426c;
+   font-size: 14px;
+   font-family: helvetica, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
