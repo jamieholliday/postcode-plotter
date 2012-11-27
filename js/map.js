@@ -6,8 +6,8 @@
 //@attribution : http://www.benjaminkeen.com/google-maps-coloured-markers/
 
 
-(function(){
-	var geocoder, mapOptions, map, submitPoint, output;
+(function($){
+	var canvas, geocoder, mapOptions, map, submitPoint, output;
 
 	//localStorage.clear();
 
@@ -17,22 +17,23 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
 
-	map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
+	canvas = $("#mapCanvas");
+
+	map = new google.maps.Map(canvas[0], mapOptions);
 
 	geocoder = new google.maps.Geocoder();
 
-	submitPoint = document.getElementById('submitPostcode');
+	submitPoint = $('#submitPostcode');
 
-	submitPoint.addEventListener('click', function(e){
-		var postcode = document.getElementById('postcode');
-		plotPoint(postcode.value);
-		postcode.value = '';
-		e.preventDefault = true;
+	submitPoint.on('click', function(e){
+		var postcode = $('#postcode');
+		plotPoint(postcode.val());
+		postcode.val('');
 		return false;
 	});
 
-	var upload = document.getElementById('upload');
-	upload.addEventListener('change', function(e){
+	var upload = $('#upload');
+	upload.on('change', function(e){
 		var file = e.target.files[0];
 
 		var reader = new FileReader();
@@ -114,25 +115,31 @@
 	var showPostcodes = function(){
 		 var titles = output[0],
 		 	i = 0,
-		 	list = [],
-		 	listHolder;
+		 	list = [];
 
 		 for (; i < titles.length; i++) {
-		 	list.push('<li class="btn" data-id="'+ i + '">' + titles[i] + '</li>');
+		 	// list.push('<li class="btn" data-id="'+ i + '">' + titles[i] + '</li>');
+		 	list.push('<option value="'+ i +'">' + titles[i] + '</option>');
 		 }
 
-		 listholder = document.getElementById('postcodes');
-		  var selection = '<div class="alert alert-info"><p>Select which field to use:</p>'
-		 + '<ul>' + list.join('') + '</ul>'
+		 listholder = $('#postcodes');
+
+		  var selectPostcode = '<div class="alert alert-info"><p>Select which field to use for postcode:</p>'
+		 + '<select name="postcodes">' + list.join('') + '</select>'
+		 +'<p>Select which field to use to group markers:</p>'
+		 + '<select name="group">' + list.join('') + '</select>'
+		 + '<button type="button" class="btn btn-small">SELECT</button>'
 		 +'</div>';
 		 
-		 listholder.innerHTML = selection;
-		 listholder.addEventListener('click', onListClick, true);
-	}
+		 listholder.html(selectPostcode);
 
-	function onListClick(e){
-		var id = parseInt(e.target.getAttribute('data-id'));
-		var	i = 1, 
+		 var select1 = $('#postcodes select[name="postcodes"]');
+		 var select2 = $('#postcodes select[name="group"]');
+		 
+		 listholder.find('button').on('click', function(e){
+
+		 	var id = parseInt(select1.val());
+			var	i = 1, 
 			len = output.length;
 
 		 for (; i < len; i++) {
@@ -143,8 +150,9 @@
 		 }
 
 		 //clear fields
-		 document.getElementById('postcodes').innerHTML = '';
-		 document.getElementById('upload').value = '';
+		 listholder.html('');
+		 
+		 });
 	}
 
 	var parseCSV = function(s,sep) {
@@ -165,7 +173,7 @@
     }
 
 
-})();
+})(jQuery);
 
 // var markers = new Array(); 
 //     var locations = [
