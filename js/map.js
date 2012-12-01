@@ -6,10 +6,12 @@
 //@attribution : http://www.benjaminkeen.com/google-maps-coloured-markers/
 
 
-(function($){
-	var canvas, geocoder, mapOptions, map, submitPoint, output;
+// (function($){
+	var canvas, geocoder, mapOptions, map, submitPoint, output, groups, markers, geocodeQue, postcodesTable, markerList, markerListToggle, groupToggle;
 
 	//localStorage.clear();
+
+	geocodeQue = [];
 
 	mapOptions = {
 		center: new google.maps.LatLng(53.722, -2.856),
@@ -17,20 +19,51 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
 
+	markers = [
+		{id:'marker1', file:'blue_Marker.png'},
+		{id:'marker2', file:'brown_Marker.png'},
+		{id:'marker3', file:'darkgreen_Marker.png'},
+		{id:'marker4', file:'green_Marker.png'},
+		{id:'marker5', file:'orange_Marker.png'},
+		{id:'marker6', file:'paleblue_Marker.png'},
+		{id:'marker7', file:'pink_Marker.png'},
+		{id:'marker8', file:'purple_Marker.png'},
+		{id:'marker9', file:'red_Marker.png'},
+		{id:'marker10', file:'yellow_Marker.png'}
+	];
+
+	groups = [];
+
+	//cached selectors
 	canvas = $("#mapCanvas");
+	submitPoint = $('#postcodeForm');
+	postcodesTable = $('#mapControls tbody');
+	markerList = $('#mapControls #markerListWrapper');
+	markerListToggle = $('#mapControls #markerToggle');
+	groupToggle = $('#mapControls #groupToggle');
 
 	map = new google.maps.Map(canvas[0], mapOptions);
 
 	geocoder = new google.maps.Geocoder();
 
-	submitPoint = $('#submitPostcode');
-
-	submitPoint.on('click', function(e){
+	submitPoint.on('submit', function(e){
 		var postcode = $('#postcode');
-		plotPoint(postcode.val());
+		// if(postcode.val() == ''){
+		// 	return false;
+		// }
+		plotPoint(postcode.val(), "NONE");
 		postcode.val('');
 		return false;
 	});
+
+	markerListToggle.on('click', function(){
+		var i = $(this).find('i');
+		if(i.hasClass('icon-minus')){
+			i.removeClass('icon-minus').addClass('icon-plus');
+		} else {
+			i.removeClass('icon-plus').addClass('icon-minus');
+		}
+	})
 
 	var upload = $('#upload');
 	upload.on('change', function(e){
@@ -47,7 +80,7 @@
 
 	});
 
-	var plotPoint = function(postcd){
+	var plotPoint = function(postcd, group){
 		//check if postcode is stored in local storage
 		var postcode,
 			latlong,
@@ -55,7 +88,7 @@
 			coords;
 
 		if (postcd){
-			postcode = postcd.toLowerCase();
+			postcode = postcd.toString().toLowerCase();
 		}
 
 		if (supports_html5_storage()){
@@ -64,18 +97,25 @@
 				coords = JSON.parse(localPostcode)
 				latlong = new google.maps.LatLng(coords.lat, coords.lng);
 
-				console.log(latlong);
-				addMarker(latlong);
+				addMarker(latlong, group, postcd);
 			} else {
-				geocode(postcode);
+				if(group){
+					geocodeQue.push({pc:postcode, grp:group});
+				} else{
+					geocode(postcode);
+				}	
 			}
 			
 		} else {
-			geocode(postcode);
+			if(group){
+				geocodeQue.push({pc:postcode, grp:group});
+			} else{
+				geocode(postcode);
+			}
 		}
 	}
 
-	var geocode = function(postcode){
+	var geocode = function(postcode, group){
 		geocoder.geocode({'address' : postcode}, function(results, status){
 				if(status == google.maps.GeocoderStatus.OK){
 					var lat = results[0].geometry.location.lat();
@@ -84,13 +124,31 @@
 					obj.lat = lat;
 					obj.lng = lng;
 
-					addMarker(results[0].geometry.location);
+					addMarker(results[0].geometry.location, group, postcode);
 
 					localStorage[postcode] = JSON.stringify(obj);
 				} else {
 					console.log("geocode unsucessfull: " + status);
 				}
 			});
+	}
+
+	var processGeocodeQue = function(){
+		//stagger geocode requests to avoid Google over use limit 1s per request seems the right amount
+		var i,
+			len = geocodeQue.length;
+
+		for(i=0; i<len; i+=1){
+			var multiplier = i*1000;
+			console.log(multiplier);
+			if(geocodeQue[i].pc && geocodeQue[i].grp){
+				setTimeout(shuttle, multiplier, [geocodeQue[i].pc, geocodeQue[i].grp]);
+			}
+		}
+	}
+
+	var shuttle = function(args){
+		geocode(args[0], args[1]);
 	}
 
 	var supports_html5_storage = function() {
@@ -101,15 +159,52 @@
 	  }
 	}
 
-	var addMarker = function(loc){
-		// map.setCenter(results[0].geometry.location);
-		// map.setZoom(6);
-		console.log("loc " + loc);
-		var marker = new google.maps.Marker({
+	var addMarker = function(loc, grouper, postcode){
+		var newGroup = true,
+			marker = "",
+			len,
+			mk,
+			ingroup = false;
+
+			len = groups.length;
+			for (var i = 0; i < len; i++) {
+				if(groups[i].id === grouper){
+					marker = groups[i].marker;
+					mk = makeMarker(loc, marker);
+					addTableRow(postcode, grouper, marker);
+					groups[i].allMarkers.push(mk);
+					ingroup = true;
+					break;
+				}
+			}
+			if(!ingroup){
+				groups.push({
+					id:grouper,
+					marker : markers[groups.length].file,
+					allMarkers : []
+				});
+				groupToggle.append('<li data-group="'+grouper+'"><button class="btn btn-small">X</button></li>')
+				marker = groups[groups.length - 1].marker;
+				mk = makeMarker(loc, marker);
+				addTableRow(postcode, grouper, marker);
+				groups[groups.length - 1].allMarkers.push(mk);
+			}
+
+		markerList.removeClass('hidden');	
+	}
+
+	var makeMarker = function(loc, marker){
+		//console.log('marker: ' + marker);
+		if(marker === 'undefined'){
+			//if we run out of markers make them the default color
+			marker = markers[0].file;
+		}
+		var mapMarker = new google.maps.Marker({
 			map: map,
 			position: loc,
-			icon: 'img/blue_MarkerA.png'
+			icon: 'img/' + marker
 		});
+		return mapMarker;
 	}
 
 	var showPostcodes = function(){
@@ -145,14 +240,29 @@
 		 for (; i < len; i++) {
 		 	if(output[i][id] !== "" || output[i][id] !== "undefined"){
 		 		var postcode = output[i][id];
-		 		plotPoint(postcode);
+		 		var grp = parseInt(select2.val());
+		 		plotPoint(postcode, output[i][grp]);
 		 	}
 		 }
+
+		 processGeocodeQue(); //proccess all the items that need geogoding
 
 		 //clear fields
 		 listholder.html('');
 		 
 		 });
+	}
+
+	var addTableRow = function(postcode, grouper, marker){
+		if(!grouper){
+			grouper = "DEFAULT";
+		}
+		var img = '<img src="img/'+marker+'" alt="map marker"/>'
+		postcodesTable.append('<tr><td>'+postcode.toUpperCase()+'</td><td>'+grouper+'</td><td>'+img+'</td></tr>')
+	}
+
+	var updateTable = function(){
+
 	}
 
 	var parseCSV = function(s,sep) {
@@ -172,8 +282,7 @@
         return a;
     }
 
-
-})(jQuery);
+// })(jQuery);
 
 // var markers = new Array(); 
 //     var locations = [
@@ -184,32 +293,6 @@
 //       ['Maroubra Beach', 'Some text goes here<br />text', 'Walk', -33.950198, 151.259302, 1]
 //     ];
 
-//     var map = new google.maps.Map(document.getElementById('mapCanvas'), {
-//       zoom: 10,
-//       center: new google.maps.LatLng(-33.92, 151.25),
-//       mapTypeId: google.maps.MapTypeId.ROADMAP
-//     });
-
-//     var infowindow = new google.maps.InfoWindow();
-
-//     var marker, i;
-
-//     for (i = 0; i < locations.length; i++) {  
-//       marker = new google.maps.Marker({
-//         position: new google.maps.LatLng(locations[i][3], locations[i][4]),
-//         map: map
-//       });
-        
-//         markers.push(marker);
-        
-//       google.maps.event.addListener(marker, 'click', (function(marker, i) {
-//         return function() {
-//           infowindow.setContent(locations[i][0]+"<br />"+locations[i][2]+"<br />"+locations[i][1]);
-//           infowindow.open(map, marker);
-//         }
-//       })(marker, i));
-//     }
-    
     
     
 

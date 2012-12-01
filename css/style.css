@@ -29,7 +29,6 @@ body{
 }
 
 #mapControls{
-	height:100%;
 	padding-left:20px;
 	background-color:#fff;
 	border: 3px solid #eee;
@@ -39,6 +38,7 @@ body{
 #mapControls h1{
 	font-size:16px;
 	color:#666;
+	margin-bottom:10px;
 }
 
 input[type="text"]{
@@ -78,8 +78,29 @@ input[type="text"]{
 	margin-top:10px;
 }
 
+.hidden{
+	display: none;
+}
+#groupToggle{
+	margin-left:0;
+}
+
+#groupToggle li{
+	list-style: none;
+	display: inline;
+	margin-right:3px;
+}
+
+#groupToggle li:last-child{
+	margin-right:0;
+}
+
 /* OVERRIDES */
 .container{
 	width:1000px;
+}
+
+#markerList table{
+	margin-bottom:0;
 }
 

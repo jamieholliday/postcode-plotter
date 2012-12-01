@@ -12,16 +12,34 @@
 		<div class="row" id="innerWrapper">
 			<div id="mapCanvas" class="span8"></div>
 			<div id="mapControls" class="span4">
-					<h1>Manually add postcode</h1>
-					<input type="text" id="postcode" name="postcode" placeholder="Add postcode"/>
-					<button type="button" id="submitPostcode" class="btn btn-small">GO</button>
+					<form id="postcodeForm">
+						<input type="text" id="postcode" name="postcode" placeholder="Add postcode"/>
+						<input type="submit" id="submitPostcode" class="btn btn-small" value="GO">
+					</form>
 					<hr>
-					<h1>Upload file</h1>
 					<div id="uploadWrap">
 						<button type="button" value="UPLOAD CSV" class="btn btn-small">UPLOAD CSV</button>
 						<input type="file" id="upload" name="upload"/>
 					</div>	
 				<div id="postcodes"></div>
+				<hr>
+				<div id="markerListWrapper" class="hidden">
+					<ul id="groupToggle">
+					</ul>
+					<button type="button" id="markerToggle" class="btn btn-small" data-toggle="collapse" data-target="#markerList"><i class="icon-minus"></i></button>
+					<div id="markerList" class="collapse in ">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Postcode</th>
+									<th>Area</th>
+									<th>Marker</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
