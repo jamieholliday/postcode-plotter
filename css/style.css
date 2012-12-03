@@ -1,0 +1,169 @@
+*{
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+body, html{
+	height:100%;
+}
+
+body{
+	background:url('../img/bg-grid.png');
+}
+
+#wrapper{
+	padding:30px;
+	height:100%;
+}
+
+#innerWrapper{
+	height:100%;
+}
+
+#mapCanvas{
+	background-color:white;
+	height:100%;
+	resize:vertical;
+	border: 3px solid #eee;
+}
+
+#mapControls{
+	min-height: 100%;
+	padding-left:20px;
+	background-color:#fff;
+	border: 3px solid #eee;
+	padding:10px;
+}
+
+#mapControls h1{
+	font-size:16px;
+	color:#666;
+	margin-bottom:10px;
+}
+
+input[type="text"]{
+	border:1px solid #BFC2C4;
+	height:26px;
+	width:229px;
+	color:#AEAEAE;
+	font-size:12px;
+	-webkit-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
+	padding: 4px 7px 4px 7px;
+
+}
+
+#upload{
+	position:relative;
+	top:-29px;
+	font-size:20px;
+	width:114px;
+	opacity: 0;
+	background-color:red;
+}
+
+#uploadWrap{
+	position: relative;
+	overflow:hidden;
+	width:115px;
+	cursor: pointer;
+	height:30px;
+}
+
+#submitPostcode{
+	margin-top:-10px;
+}
+
+#postcodes .alert{
+	margin-top:10px;
+}
+
+.hidden{
+	display: none;
+}
+#groupToggle{
+	margin-left:0;
+}
+
+#groupToggle div.group-color{
+	width:14px;
+	height:14px;
+	border-radius:2px;
+}
+
+#groupToggle li{
+	list-style: none;
+	display: inline;
+	margin-right:2px;
+}
+
+#groupToggle li:last-child{
+	margin-right:0;
+}
+
+#groupToggle button{
+	padding:5px;
+}
+
+#groupToggle button.faded{
+	opacity:0.5;
+}
+
+#groupToggle button.faded div{
+	opacity:0.3;
+}
+
+#groupToggle .marker1{
+	background:#6b98ff;
+}
+
+#groupToggle .marker2{
+	background:#c09d82;
+}
+
+#groupToggle .marker3{
+	background:#63ba34;
+}
+
+#groupToggle .marker4{
+	background:#b0e789;
+}
+
+#groupToggle .marker5{
+	background:#e58e40;
+}
+
+#groupToggle .marker6{
+	background:#c8e4fb;
+}
+
+#groupToggle .marker7{
+	background:#edb1fb;
+}
+
+#groupToggle .marker8{
+	background:#c0a2f8;
+}
+
+#groupToggle .marker9{
+	background:#e57b75;
+}
+
+#groupToggle .marker10{
+	background:#f8ea77;
+}
+
+#markerList tbody.faded{
+	opacity:0.3;
+}
+
+/* OVERRIDES */
+.container{
+	width:1000px;
+}
+
+#markerList table{
+	margin-bottom:0;
+}
+
